@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Давид — музыкант</title>
+  <meta name="description" content="Официальный сайт Давида — музыка, релизы, концерты и контакты." />
+  <style>
+    :root{--bg:#0f0f12;--card:#0f1720;--accent:#ff6b6b;--muted:#9aa4b2;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial;color:#e6eef6;background:linear-gradient(180deg,#071018 0%, #0f1720 100%)}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1100px;margin:36px auto;padding:28px}
+    header{display:flex;gap:18px;align-items:center}
+    .logo{width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#b86bff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#071018;font-size:22px;box-shadow:0 6px 20px rgba(0,0,0,0.6)}
+    .site-title{display:flex;flex-direction:column}
+    h1{margin:0;font-size:24px}
+    p.lead{margin:4px 0 0;color:var(--muted)}
+
+    main{display:grid;grid-template-columns:1fr 360px;gap:24px;margin-top:28px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,23,0.6);backdrop-filter:blur(6px)}
+
+    /* Player */
+    .player{display:flex;flex-direction:column;gap:12px}
+    .cover{width:100%;height:280px;border-radius:10px;background-image: url('https://newsylveon.github.io/narratiffffchiki/assets/cover.jpg');background-size:cover;background-position:center;box-shadow:inset 0 -40px 80px rgba(0,0,0,0.35)}
+    .title-row{display:flex;align-items:center;justify-content:space-between}
+    .track-title{font-size:18px;margin:0}
+    .meta{color:var(--muted);font-size:13px}
+
+    /* controls */
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--glass);padding:8px 12px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+    .progress{width:100%;height:8px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#b86bff)}
+
+    /* right column */
+    aside .bio{margin-bottom:14px}
+    .socials{display:flex;gap:8px;flex-wrap:wrap}
+    .socials a{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:14px}
+
+    /* tracks list */
+    .tracks{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .track{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.015)}
+    .track .num{width:36px;text-align:center;color:var(--muted)}
+    .track .info{flex:1}
+    .track .play{padding:6px 10px;border-radius:8px}
+
+    footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive */
+    @media(max-width:980px){main{grid-template-columns:1fr}aside{order:2} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">ДА</div>
+      <div class="site-title">
+        <h1>Давид — музыкант</h1>
+        <p class="lead">Авторская музыка, живые выступления и коллаборации — Москва / онлайн.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="player">
+          <div class="cover" id="cover"></div>
+          <div class="title-row">
+            <div>
+              <h2 class="track-title" id="track-title">narratiffffchiki — релиз</h2>
+              <div class="meta" id="track-meta">25:17 — Этажи, эмбиент / эксперимент</div>
+            </div>
+            <div class="controls">
+              <button class="btn" id="prev">◀</button>
+              <button class="btn" id="play">▶ Play</button>
+              <button class="btn" id="next">▶▶</button>
+            </div>
+          </div>
+
+          <div class="progress" id="progress"><i></i></div>
+
+          <!-- Hidden audio element will play tracks -->
+          <audio id="audio" preload="metadata">
+            <source src="https://newsylveon.github.io/narratiffffchiki/assets/album.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+
+          <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+            <a class="btn" href="https://newsylveon.bandcamp.com" target="_blank">Bandcamp</a>
+            <a class="btn" href="https://soundcloud.com" target="_blank">SoundCloud</a>
+            <a class="btn" href="https://open.spotify.com" target="_blank">Spotify</a>
+            <a class="btn" href="https://drive.google.com" target="_blank">Скачать стемы</a>
+          </div>
+
+          <div class="tracks" id="tracks">
+            <!-- Tracks populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <aside>
+        <div class="card bio">
+          <h3>Обо мне</h3>
+          <p>Привет — я Давид. Пишу атмосферную экспериментальную музыку, смешиваю электронику и живые инструменты. Работаю с текстурами, полифонией и полем звука. На этой странице — релизы, тексты и материал для промо.</p>
+        </div>
+
+        <div class="card">
+          <h3>Соцсети</h3>
+          <div class="socials">
+            <a href="https://t.me/" target="_blank">Telegram</a>
+            <a href="https://instagram.com/" target="_blank">Instagram</a>
+            <a href="https://vk.com/" target="_blank">ВКонтакте</a>
+            <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
+            <a href="https://newsylveon.bandcamp.com" target="_blank">Bandcamp</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Контакты</h3>
+          <p class="meta">Для букинга и промо — <a href="mailto:david@example.com">david@example.com</a></p>
+          <p class="meta">Менеджер — <a href="mailto:manager@example.com">manager@example.com</a></p>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      © Давид — музыка • Сайт сделан по шаблону (адаптация для вас)
+    </footer>
+  </div>
+
+  <script>
+    // Simple player logic and example tracks (edit these with your real tracks)
+    const tracks = [
+      {title: 'narratiffffchiki — Full Album', src: 'https://newsylveon.github.io/narratiffffchiki/assets/album.mp3', duration: '25:17'},
+      {title: 'Track 1 — Aether', src: 'https://newsylveon.github.io/narratiffffchiki/assets/track1.mp3', duration: '4:12'},
+      {title: 'Track 2 — Liminal', src: 'https://newsylveon.github.io/narratiffffchiki/assets/track2.mp3', duration: '6:05'},
+      {title: 'Track 3 — Mirror', src: 'https://newsylveon.github.io/narratiffffchiki/assets/track3.mp3', duration: '3:44'}
+    ];
+
+    const audio = document.getElementById('audio');
+    const titleEl = document.getElementById('track-title');
+    const metaEl = document.getElementById('track-meta');
+    const progressBar = document.querySelector('#progress > i');
+    const tracksContainer = document.getElementById('tracks');
+
+    let idx = 0;
+    function loadTrack(i){
+      const t = tracks[i];
+      audio.src = t.src;
+      titleEl.textContent = t.title;
+      metaEl.textContent = t.duration + ' — релиз';
+      document.getElementById('cover').style.backgroundImage = "url('https://picsum.photos/800/800?random="+ (i+1) +"')";
+      Array.from(document.querySelectorAll('.track')).forEach((el,ii)=> el.classList.toggle('playing', ii===i));
+    }
+
+    function playPause(){
+      if(audio.paused){audio.play();document.getElementById('play').textContent='⏸ Pause'}
+      else{audio.pause();document.getElementById('play').textContent='▶ Play'}
+    }
+
+    document.getElementById('play').addEventListener('click', playPause);
+    document.getElementById('next').addEventListener('click', ()=>{idx = (idx+1)%tracks.length;loadTrack(idx);audio.play();document.getElementById('play').textContent='⏸ Pause'});
+    document.getElementById('prev').addEventListener('click', ()=>{idx = (idx-1+tracks.length)%tracks.length;loadTrack(idx);audio.play();document.getElementById('play').textContent='⏸ Pause'});
+
+    audio.addEventListener('timeupdate', ()=>{
+      if(audio.duration){
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = pct + '%';
+      }
+    });
+
+    // Populate track list
+    tracks.forEach((t,i)=>{
+      const tr = document.createElement('div'); tr.className='track';
+      tr.innerHTML = `<div class="num">${String(i+1).padStart(2,'0')}</div><div class="info"><strong>${t.title}</strong><div class="meta">${t.duration}</div></div><div><button class="btn play" data-i="${i}">Play</button></div>`;
+      tracksContainer.appendChild(tr);
+    });
+
+    tracksContainer.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button.play'); if(!btn) return;
+      idx = Number(btn.dataset.i); loadTrack(idx); audio.play(); document.getElementById('play').textContent='⏸ Pause';
+    });
+
+    // initial load
+    loadTrack(0);
+
+    // Helpful: replace placeholder emails, images and track src with your real assets.
+  </script>
+</body>
+</html>
